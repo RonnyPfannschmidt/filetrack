@@ -2,12 +2,13 @@ import sys
 import py
 import sqlite3
 
-IMPORT= "insert or ignore into filename_blob (name, blob) values (?, ?)"
+IMPORT= "insert or ignore into filename_blob (blob, name) values (?, ?)"
 
 def do_migrate(dbname):
     from micromigrate import find_in_path, apply_migrations
     here = py.path.local(__file__).dirpath().join('migrations')
-    migrations = find_in_path(here)
+    migrations = list(find_in_path(here))
+    print migrations
     from micromigrate.backend_script import ScriptBackend
     migrator = ScriptBackend(dbname)
     apply_migrations(migrator, migrations)

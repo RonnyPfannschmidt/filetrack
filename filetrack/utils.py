@@ -31,3 +31,9 @@ def appcommand(func):
         with closing(db):
             func(db, *args)
     return command
+
+
+def simplerows(db, query, args):
+    for row in db.execute(query, args):
+        print(row[0])
+

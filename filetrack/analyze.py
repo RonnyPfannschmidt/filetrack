@@ -1,4 +1,4 @@
-from .utils import appcommand
+from .utils import appcommand, simplerows
 
 
 REPOS = '''
@@ -11,6 +11,4 @@ REPOS = '''
 
 @appcommand
 def repos(db, type_):
-    results = db.execute(REPOS, {'type': '.' + type_})
-    for item in results:
-        print(item[0])
+    simplerows(db, REPOS, {'type': '.' + type_})

@@ -16,7 +16,6 @@ def do_migrate(dbname):
     from micromigrate import find_in_path, apply_migrations
     here = py.path.local(__file__).dirpath().join('migrations')
     migrations = list(find_in_path(here))
-    print migrations
     from micromigrate.backend_script import ScriptBackend
     migrator = ScriptBackend(dbname)
     apply_migrations(migrator, migrations)
@@ -31,11 +30,13 @@ def appcommand(func):
             func(db, *args)
     return command
 
+
 @appcommand
 def repos(db, type_):
     results = db.execute(REPOS, {'type': '.' + type_})
     for item in results:
         print(item[0])
+
 
 @appcommand
 def load(db, filename):
@@ -43,8 +44,3 @@ def load(db, filename):
         items = [line.decode('utf-8', 'replace').split('  ', 1) for line in fp]
     db.executemany(IMPORT, items)
     db.commit()
-
-
-
-
-

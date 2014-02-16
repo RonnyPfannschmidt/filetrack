@@ -1,4 +1,3 @@
-import sys
 import py
 import sqlite3
 
@@ -25,8 +24,4 @@ def load(dbname, filename):
 
 
 
-if __name__ == '__main__':
-    args = sys.argv[2:]
-    command = sys.argv[1]
-    globals()[command](*args)
 

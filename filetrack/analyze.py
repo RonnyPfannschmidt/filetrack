@@ -1,4 +1,4 @@
-from . import appcommand
+from .utils import appcommand
 
 
 REPOS = '''

@@ -1,8 +1,3 @@
-import py
-import sqlite3
-from functools import wraps
-from contextlib import closing
-
 __all__ = [
     'load',
     'repos',

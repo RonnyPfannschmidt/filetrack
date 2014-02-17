@@ -13,7 +13,7 @@ def needs_migrate(dbname):
     return _micromigrate(dbname, missing_migrations)
 
 def do_migrate(dbname):
-    _micromigrate(sbname, apply_migrations)
+    _micromigrate(dbname, apply_migrations)
 
 def _micromigrate(dbname, command):
     here = py.path.local(__file__).dirpath().join('migrations')

@@ -48,7 +48,7 @@ def database(dbname):
         return arg
 
     conn.create_function('basename', 1, my_basename)
-    conn.create_aggregate('collect_list', 1, CollectList)
+    conn.create_aggregate('listagg', 1, CollectList)
     with closing(conn):
         yield conn
 

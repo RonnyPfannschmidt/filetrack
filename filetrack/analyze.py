@@ -13,7 +13,7 @@ IMAGES = '''
     select
         basename(name) as basename,
         count(*) as c,
-        collect_list(name) as json
+        listagg(name) as json
     from fts_filename
     where name match 'jpg'
     group by basename

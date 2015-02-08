@@ -14,5 +14,6 @@ setup(
     install_reqires=[
         'micromigrate',
         'click',
+        'scandir',
     ]
 )

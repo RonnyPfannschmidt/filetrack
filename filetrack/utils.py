@@ -36,7 +36,7 @@ class CollectList(object):
         self.data.append(value)
 
     def finalize(self):
-        return json.dumps(self.data)
+        return json.dumps(self.data, indent=2)
 
 
 def my_basename(arg):
@@ -49,9 +49,11 @@ def my_basename(arg):
 _notify = print
 
 
-def simplerows(db, query, args=()):
+def simplerows(db, query, args=None):
     if args:
         print(args)
-    rows = db.execute(query, args)
+        rows = db.execute(query, args)
+    else:
+        rows = db.execute(query)
     for row in rows:
         _notify(*row)

@@ -18,7 +18,7 @@ ADD_BLOOB = "insert or ignore into blob (hash) values (?)"
 @click.pass_obj
 @click.argument('file', type=click.File(encoding='utf-8', errors='replace'))
 def load(db, file):
-    items = [line.split(u'  ', 1) for line in file]
+    items = [line.strip().split(u'  ', 1) for line in file]
     db.executemany(IMPORT, items)
     db.commit()
 

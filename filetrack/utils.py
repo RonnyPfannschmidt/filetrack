@@ -2,6 +2,7 @@ from __future__ import print_function
 import py
 import sqlite3
 import json
+from os import path
 from contextlib import closing, contextmanager
 from functools import wraps
 
@@ -12,8 +13,10 @@ from micromigrate.backend_script import ScriptBackend
 def needs_migrate(dbname):
     return _micromigrate(dbname, missing_migrations)
 
+
 def do_migrate(dbname):
     _micromigrate(dbname, apply_migrations)
+
 
 def _micromigrate(dbname, command):
     here = py.path.local(__file__).dirpath().join('migrations')
@@ -36,12 +39,13 @@ class CollectList(object):
 @contextmanager
 def database(dbname):
     conn = sqlite3.connect(dbname)
+
     def my_basename(arg):
-        arg = py.std.os.path.basename(arg)
+        arg = path.basename(arg)
         arg = arg.strip()
         if arg.endswith('.i'):
             arg = arg[:-2]
-        return  arg
+        return arg
 
     conn.create_function('basename', 1, my_basename)
     conn.create_aggregate('collect_list', 1, CollectList)
@@ -61,8 +65,8 @@ def appcommand(func):
     return command
 
 
-
 _notify = print
+
 
 def simplerows(db, query, args):
     print(args)
@@ -72,4 +76,3 @@ def simplerows(db, query, args):
         rows = db.execute(query)
     for row in rows:
         _notify(*row)
-

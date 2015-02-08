@@ -52,6 +52,6 @@ _notify = print
 def simplerows(db, query, args=()):
     if args:
         print(args)
-    rows = db.execute(query)
+    rows = db.execute(query, args)
     for row in rows:
         _notify(*row)

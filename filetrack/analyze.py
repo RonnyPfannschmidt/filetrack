@@ -1,4 +1,6 @@
-from .utils import appcommand, simplerows
+from .utils import simplerows
+import click
+from .cli import main
 
 
 REPOS = '''
@@ -21,11 +23,14 @@ IMAGES = '''
 '''
 
 
-@appcommand
-def repos(db, type_):
-    simplerows(db, REPOS, {'type': '.' + type_})
+@main.command()
+@click.pass_obj
+@click.argument('kind')
+def repos(db, kind):
+    simplerows(db, REPOS, {'type': '.' + kind})
 
 
-@appcommand
+@main.command()
+@click.pass_obj
 def images(db):
     simplerows(db, IMAGES, None)

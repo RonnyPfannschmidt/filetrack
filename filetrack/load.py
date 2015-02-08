@@ -4,8 +4,8 @@ import functools
 from itertools import starmap
 from collections import namedtuple
 
-from .utils import appcommand
-
+from .cli import main
+import click
 
 FileSet = namedtuple('FileSet', 'path dirnames blobs links')
 
@@ -14,11 +14,11 @@ IMPORT = "insert or ignore into filename_blob(blob, name) values(?, ?)"
 ADD_BLOOB = "insert or ignore into blob (hash) values (?)"
 
 
-@appcommand
-def load(db, filename):
-    with open(filename) as fp:
-        items = [line.decode('utf-8', 'replace').strip().split('  ', 1)
-                 for line in fp]
+@main.command()
+@click.pass_obj
+@click.argument('file', type=click.File(encoding='utf-8', errors='replace'))
+def load(db, file):
+    items = [line.split(u'  ', 1) for line in file]
     db.executemany(IMPORT, items)
     db.commit()
 
@@ -63,7 +63,10 @@ def insert_fileset(db, fileset):
     pass
 
 
-def loadtree(db, base):
+@main.command()
+@click.pass_context
+@click.argument('base')
+def loadtree(ctx, base):
     base = os.path.abspath(base)
     for fileset in walk_filesets(base):
-        insert_fileset(db, *fileset)
+        insert_fileset(ctx.db, *fileset)

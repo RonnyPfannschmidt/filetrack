@@ -11,7 +11,7 @@ def test_walk_fileset(tmpdir):
     tmpdir.ensure('test', dir=1)
     expected = fp.computehash('sha1')
     (root, subdirs) = walk_filesets(str(tmpdir))
-    print (root)
+    print(root)
     assert root.blobs['tmpfile'] == expected
 
 
